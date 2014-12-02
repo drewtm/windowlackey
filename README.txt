@@ -8,11 +8,15 @@ If you want to build one of these exactly like I did, you will require:
   1x tiny motors http://www.amazon.com/gp/product/B009AQLDSS/
   2x 607 bearings http://www.amazon.com/gp/product/B00K85I51I/
   1x SPST switch http://www.amazon.com/dp/B00AKVBEN6
+  1x power supply http://www.amazon.com/gp/product/B00KC9Z5Y0/
 
 It also requires my BH1750FVI Arduino library https://github.com/drewtm/BH1750FVI
 
-You can 3D print the plastic parts from the included STL files.
+You'll also need an FTDI cable, or access to one temporarily, to program the Arduino.
 
-The wiring in that case is done in-place with small solid-core wire, and locks all the circuit boards together.
+You can 3D print the plastic parts from the included STL files if you have the exact same type of blinds that I have.
+
+The wiring in that case is done in-place with small solid-core wire (i used wire from an ethernet cable),
+and the wires lock all the circuit boards together into the case.
 
 The gears and motor are for a ball-chain type blinds mechanism, often found on vertical blinds.
