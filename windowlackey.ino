@@ -61,13 +61,17 @@ void setup() {
     blindsareopen=true;                        //remember that the blinds are open
     if(!daytime){                              //but if they need to close,
       closeblinds();                           //then close them
+      lastdawn=millis()-hours(19);             //prevent immediate close/open cycle at startup
     }
+    else lastdusk=millis()-hours(19);          //wait at least an hour before allowing dusk
   }
   else{
     blindsareopen=false;                       //opposite of above
     if(daytime){                               //
       openblinds();                            //
+      lastdusk=millis()-hours(19);             //
     }
+    else lastdawn=millis()-hours(19);
   }
   
 }
@@ -123,7 +127,6 @@ void processBrightness(){
     unsigned long int timesincedusk = millis()-lastdusk; //calculate time since last dusk triggered
     if(timesincedusk > hours(20)){ //this forces dusk to be close to the same time of day as yesterday
       if((word)sum < duskbright){  //check the brightness only if it's been almost a whole day
-        if(lastdusk==lastdawn) lastdawn=millis()-hours(19); //prevent immediate close/open cycle at startup
         lastdusk=millis();  //record the time, because this is today's dusk
         daytime = false;    //record that it is now night-time, to prevent this code from running for a while
         closeblinds();      //run the blinds closed
@@ -136,7 +139,6 @@ void processBrightness(){
     unsigned long int timesincedawn = millis()-lastdawn;
     if(timesincedawn > hours(20)){
       if((word)sum > dawnbright){
-        if(lastdusk==lastdawn) lastdusk=millis()-hours(19);
         lastdawn=millis();
         daytime = true;
         openblinds();
@@ -149,17 +151,31 @@ void processBrightness(){
   
 }
 
-void processSwitch(){   //this acts like an edge trigger for the switch
+void processSwitch(){   //this is an edge trigger for the switch
   if(switchhasbeenon){  //so it only does something at the moment when you flip it
     if(!swON){
       closeblinds();
-      switchhasbeenon=false;
+      if(swON){                          //if the switch is on now, it has been immediately turned back on
+        eye.startSingleSample(BH_Singh); //which indicates that you're trying to train the closing time
+        lastdusk = millis();             //so act as though this was a real dusk event
+        daytime = false;                 //but also adjust the light trigger level
+        while(!eye.sampleIsFresh());
+        duskbright = (eye.getLightLevel()+duskbright)/2;
+      }
+      else switchhasbeenon=false;
     }
   }
   else{
     if(swON){
-      switchhasbeenon=true;
       openblinds();
+      if(!swON){                         //training case (see above)
+        eye.startSingleSample(BH_Singh); // start a new sample
+        lastdawn = millis();             // record time
+        daytime = true;                  // set daytime
+        while(!eye.sampleIsFresh());     // wait for the light sample to be ready
+        dawnbright = (eye.getLightLevel()+dawnbright)/2; //average the new trigger level with the old one
+      }
+      else switchhasbeenon=true;
     }
   }
 }
