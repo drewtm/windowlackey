@@ -63,7 +63,6 @@ void setup() {
       closeblinds();                           //then close them
       lastdawn=millis()-hours(19);             //prevent immediate close/open cycle at startup
     }
-    else lastdusk=millis()-hours(19);          //wait at least an hour before allowing dusk
   }
   else{
     blindsareopen=false;                       //opposite of above
@@ -71,7 +70,6 @@ void setup() {
       openblinds();                            //
       lastdusk=millis()-hours(19);             //
     }
-    else lastdawn=millis()-hours(19);
   }
   
 }
@@ -127,6 +125,7 @@ void processBrightness(){
     unsigned long int timesincedusk = millis()-lastdusk; //calculate time since last dusk triggered
     if(timesincedusk > hours(20)){ //this forces dusk to be close to the same time of day as yesterday
       if((word)sum < duskbright){  //check the brightness only if it's been almost a whole day
+        if(lastdusk==lastdawn) lastdawn=millis()-hours(19); //prevent immediate close/open cycle at startup
         lastdusk=millis();  //record the time, because this is today's dusk
         daytime = false;    //record that it is now night-time, to prevent this code from running for a while
         closeblinds();      //run the blinds closed
@@ -139,6 +138,7 @@ void processBrightness(){
     unsigned long int timesincedawn = millis()-lastdawn;
     if(timesincedawn > hours(20)){
       if((word)sum > dawnbright){
+        if(lastdusk==lastdawn) lastdusk=millis()-hours(19);
         lastdawn=millis();
         daytime = true;
         openblinds();
