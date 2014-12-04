@@ -10,6 +10,9 @@ If you want to build one of these exactly like I did, you will require:
   1x SPST switch http://www.amazon.com/dp/B00AKVBEN6
   1x power supply http://www.amazon.com/gp/product/B00KC9Z5Y0/
   1x DC power jack http://www.amazon.com/dp/B00CQMGWIO/
+  1x m7 x 35mm long hex head bolt
+  2x flat-head wood screws, 3mm to 4mm diameter by about 15mm long
+  1x pan-head wood screw, 3mm to 4mm diameter by 20-25mm long
   
 A website like www.mouser.com sells similar switches and DC power jacks for much cheaper, but you have to pay shipping.
 
