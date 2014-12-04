@@ -9,6 +9,9 @@ If you want to build one of these exactly like I did, you will require:
   2x 607 bearings http://www.amazon.com/gp/product/B00K85I51I/
   1x SPST switch http://www.amazon.com/dp/B00AKVBEN6
   1x power supply http://www.amazon.com/gp/product/B00KC9Z5Y0/
+  1x DC power jack http://www.amazon.com/dp/B00CQMGWIO/
+  
+A website like www.mouser.com sells similar switches and DC power jacks for much cheaper, but you have to pay shipping.
 
 It also requires my BH1750FVI Arduino library https://github.com/drewtm/BH1750FVI
 
